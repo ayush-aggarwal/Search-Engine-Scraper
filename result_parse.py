@@ -28,3 +28,22 @@ def parse(fname):
 			db.search_results.insert(dic)
 			del dic["_id"]
 	os.remove(fname)
+def duckduckgo(query):
+	try:
+		dic={}
+		dic["query"]=query
+		dic["search_engine"]="duckduckgo"
+		query=query.replace(" ","%20")
+		import requests
+		r=requests.get("https://api.duckduckgo.com/?q="+query+"&format=json")
+		d=r.json()
+		dic["abstract"]=d["Abstract"]
+		dic["link"]=d["Results"][0]["FirstURL"]
+		dic["snippet"]=d["Results"][0]["Text"]
+		client=pymongo.MongoClient()
+		db=client.text_mining
+		db.search_results.insert(dic)
+	except Exception as e:
+		print (e)
+		pass
+	

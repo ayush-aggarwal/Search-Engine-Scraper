@@ -11,4 +11,4 @@ cmd="GoogleScraper -m http -q '"+query+"' --output-filename "+fname+" -s "+se+" 
 print (cmd)
 print (os.popen(cmd).read())
 result_parse.parse(fname)
-
+result_parse.duckduckgo(query)
