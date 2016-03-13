@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup as bs
 def parse(fname):
 	client=pymongo.MongoClient()
 	db=client.text_mining
-	db.search_results.remove({})
 	f=open(fname,"r").read()
 	g=json.loads(f)
 	for i in g:

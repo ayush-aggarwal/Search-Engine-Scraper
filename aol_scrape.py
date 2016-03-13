@@ -23,7 +23,9 @@ def aol(query,page):
 				p=soup.find("p",{"property":"f:desc"})
 				desc=p.text
 				dic["snippet"]=desc
-				dic["source"]=requests.get(link).text
+				source=requests.get(link).text
+				soup=bs(source,"lxml")
+				dic["source"]=soup.text
 				db.search_results.insert(dic)
 			except:
 				pass
