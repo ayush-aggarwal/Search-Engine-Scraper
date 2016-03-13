@@ -22,3 +22,4 @@ Search Engines Supported:-
 4. Baidu
 5. AOL
 6. Duckduckgo
+7. Ask
