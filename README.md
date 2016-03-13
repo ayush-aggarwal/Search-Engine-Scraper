@@ -14,3 +14,11 @@ After that clone the repo and run the following command:-
 1. source env/bin/activate
 2. python scrap.py
 3. Check the results in mongodb
+
+Search Engines Supported:-
+1. Google
+2. Bing
+3. Yandex
+4. Baidu
+5. AOL
+6. Duckduckgo
