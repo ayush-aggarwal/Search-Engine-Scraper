@@ -17,12 +17,12 @@ try:
 	stop = stopwords.words('english')
 	sentence = res[0]["abstract"]
 	wo=set([stemmer.stem(i.replace(".","").replace(".","").replace(",","").replace("!","").replace(",","").replace("-","").replace(";","").replace('"',"").replace("'","").replace(":","").replace("?","").lower().decode("utf-8")) for i in sentence.split() if i.lower() not in stop])
+	res1=list(db.search_results.find({"query":query,"search_engine":{"$ne":"duckduckgo"}},{"snippet":1,"_id":0}))
 except:
 	wo=set()
 	pass
 wi=set()
 wi=wi.union(wo)
-res1=list(db.search_results.find({"query":query,"search_engine":{"$ne":"duckduckgo"}},{"snippet":1,"_id":0}))
 for i in res1:
 	i["snippet"]=i["snippet"].lower().replace(".","").replace(",","").replace("!","").replace(",","").replace("-","").replace(";","").replace('"',"").replace("'","").replace(":","").replace("?","")
 	temp=set([filter(lambda x:ord(x)>31 and ord(x)<128,i) for i in i["snippet"].split() if i.lower() not in stop])
