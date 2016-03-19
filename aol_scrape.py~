@@ -27,7 +27,7 @@ def aol(query,page):
 				p=soup.find("p",{"property":"f:desc"})
 				desc=p.text
 				list_of_words = [i.lower() for i in wordpunct_tokenize(desc) if i.lower() not in stop_words]
-				dic["snippet"]=" ".join(list_of_words)
+				dic["snippet"]=desc
 				source=requests.get(link).text
 				soup=bs(source,"lxml")
 				dic["source"]=soup.text

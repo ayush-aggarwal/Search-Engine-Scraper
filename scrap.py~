@@ -20,6 +20,8 @@ if "ask" in se:
 	ask_scrap.ask(query,pages)
 	se=se.replace(",ask","").replace("ask,","").replace("ask","")
 if len(se.strip())!=0:
+	fname=input("\nPlease Enter Output File Name:- ")
+	fname=fname+".json"
 	cmd="GoogleScraper -m http -q '"+query+"' --output-filename op.json -s "+se+" -p "+pages
 	print (cmd)
 	print (os.popen(cmd).read())
