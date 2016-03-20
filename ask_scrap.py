@@ -22,6 +22,7 @@ def ask(query,pages):
 			p=soup.find("p",{"class":"web-result-description"})
 			list_of_words = [i.lower() for i in wordpunct_tokenize(p.text) if i.lower() not in stop_words]
 			dic["snippet"]=" ".join(list_of_words)
+			dic["snippet_probablity"]=float(list_of_words.count(query))/float(len(list_of_words))
 			source=requests.get(dic["link"]).text
 			soup=bs(source,"lxml")
 			dic["source"]=soup.text

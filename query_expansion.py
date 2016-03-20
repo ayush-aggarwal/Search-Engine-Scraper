@@ -22,20 +22,25 @@ except:
 	pass
 wi=set()
 wi=wi.union(wo)
-res1=list(db.search_results.find({"query":query,"search_engine":{"$ne":"duckduckgo"}},{"snippet":1,"_id":0}))
-for i in res1:
-	i["snippet"]=i["snippet"].lower().replace(".","").replace(",","").replace("!","").replace(",","").replace("-","").replace(";","").replace('"',"").replace("'","").replace(":","").replace("?","")
-	temp=set([filter(lambda x:ord(x)>31 and ord(x)<128,i) for i in i["snippet"].split() if i.lower() not in stop])
-	wi=temp.union(wi)
+p=0.3
 final=set()
-for i in wi:
-	try:
-		i=stemmer.stem(i.decode('utf8'))
-		if d.check(i)==True:
-			if query not in i and not i.isdigit():
-				final.add(i)
-	except:
-		pass
-print "Query Expanded"
-for i in final:
-	print query+" "+i
+while len(final)==0:
+	res1=list(db.search_results.find({"query":query,"search_engine":{"$ne":"duckduckgo"},"title_probablity":{"$gt":0.1},"snippet_probablity":{"$gt":p}},{"snippet":1,"_id":0}))
+	for i in res1:
+		i["snippet"]=i["snippet"].lower().replace(".","").replace(",","").replace("!","").replace(",","").replace("-","").replace(";","").replace('"',"").replace("'","").replace(":","").replace("?","")
+		temp=set([filter(lambda x:ord(x)>31 and ord(x)<128,i) for i in i["snippet"].split() if i.lower() not in stop])
+		wi=temp.union(wi)
+	for i in wi:
+		try:
+			i=stemmer.stem(i.decode('utf8'))
+			if d.check(i)==True:
+				if query not in i and not i.isdigit():
+					final.add(i)
+		except:
+			pass
+	if len(final)==0:
+		p=p-0.05
+		continue
+	print "Query Expanded"
+	for i in final:
+		print query+" "+i

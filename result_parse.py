@@ -28,7 +28,9 @@ def parse(fname):
 				pass
 			list_of_words = [i.lower() for i in wordpunct_tokenize(j["snippet"]) if i.lower() not in stop_words]
 			dic["snippet"]=" ".join(list_of_words)
+			dic["snippet_probablity"]=float(list_of_words.count(i["query"].lower()))/float(len(list_of_words))
 			dic["title"]=j["title"]
+			dic["title_probablity"]=float(j["title"].lower().split().count(i["query"].lower()))/float(len(j["title"].split()))
 			db.search_results.insert(dic)
 			del dic["_id"]
 	os.remove(fname)

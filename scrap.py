@@ -23,6 +23,6 @@ if len(se.strip())!=0:
 	cmd="GoogleScraper -m http -q '"+query+"' --output-filename op.json -s "+se+" -p "+pages
 	print (cmd)
 	print (os.popen(cmd).read())
-	result_parse.parse(fname)
+	result_parse.parse("op.json")
 result_parse.duckduckgo(query)
 	

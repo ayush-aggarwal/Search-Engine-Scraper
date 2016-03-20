@@ -24,9 +24,11 @@ def aol(query,page):
 				dic["link"]=link
 				title=a.text
 				dic["title"]=title
+				dic["title_probablity"]=float(str(title).lower().split().count(query))/float(len(str(title).split()))
 				p=soup.find("p",{"property":"f:desc"})
 				desc=p.text
 				list_of_words = [i.lower() for i in wordpunct_tokenize(desc) if i.lower() not in stop_words]
+				dic["snippet_probablity"]=float(list_of_words.count(query))/float(len(list_of_words))
 				dic["snippet"]=" ".join(list_of_words)
 				source=requests.get(link).text
 				soup=bs(source,"lxml")
