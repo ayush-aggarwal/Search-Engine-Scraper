@@ -18,9 +18,11 @@ def ask(query,pages):
 			dic["query"]=query
 			soup=bs(i,"lxml")
 			a=soup.find("a")
+			dic["title"]=a.text
+			dic["title_probablity"]=float(str(a.text).lower().split().count(query))/float(len(str(a.text).split()))
 			dic["link"]=a.get("href")
 			p=soup.find("p",{"class":"web-result-description"})
-			list_of_words = [i.lower() for i in wordpunct_tokenize(p.text) if i.lower() not in stop_words]
+			list_of_words = [i.lower() for i in wordpunct_tokenize(str(p.text)) if i.lower() not in stop_words]
 			dic["snippet"]=" ".join(list_of_words)
 			dic["snippet_probablity"]=float(list_of_words.count(query))/float(len(list_of_words))
 			source=requests.get(dic["link"]).text
