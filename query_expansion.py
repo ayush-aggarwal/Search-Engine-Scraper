@@ -22,6 +22,22 @@ except:
 	pass
 wi=set()
 wi=wi.union(wo)
+try:
+	wm=set()
+	from nltk.corpus import stopwords
+	from nltk.tokenize import wordpunct_tokenize
+	stop_words = set(stopwords.words('english'))
+	stop_words.update(['.', ',', '"', "'", '?', '!', ':', ';', '(', ')', '[', ']', '{', '}','|','@','-','(@','...'])
+	q=list(db.search_results.find({"query":query,"search_engine":{"$ne":"duckduckgo"},"title_probablity":{"$gt":0.2}},{"title":1,"_id":0}))
+	print "\n\n Titles"
+	for j in q:
+		j=filter(lambda x:ord(x)>31 and ord(x)<128,j["title"])
+		list_of_words = [i.lower() for i in wordpunct_tokenize(j) if i.lower() not in stop_words]
+		list_of_words=set(list_of_words)
+		wm=wm.union(list_of_words)
+	print wm
+except Exception as e:
+	print e
 p=0.3
 final=set()
 while len(final)==0:
@@ -42,5 +58,6 @@ while len(final)==0:
 		p=p-0.05
 		continue
 	print "Query Expanded"
+	final=final.union(wm)
 	for i in final:
 		print query+" "+i
